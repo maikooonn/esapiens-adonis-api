@@ -2,7 +2,7 @@ import env from '#start/env'
 import { defineConfig } from '@adonisjs/lucid'
 
 const dbConfig = defineConfig({
-  connection: 'postgres',
+  connection: env.get('DB_CONNECTION', 'postgres'),
   connections: {
     postgres: {
       client: 'pg',
@@ -17,6 +17,17 @@ const dbConfig = defineConfig({
         naturalSort: true,
         paths: ['database/migrations'],
       },
+    },
+    sqlite: {
+      client: 'sqlite3',
+      connection: {
+        filename: env.get('DB_DATABASE', 'tmp/test.sqlite3'),
+      },
+      migrations: {
+        naturalSort: true,
+        paths: ['database/migrations'],
+      },
+      useNullAsDefault: true,
     },
   },
 })

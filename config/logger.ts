@@ -5,10 +5,7 @@ import { defineConfig, targets } from '@adonisjs/core/logger'
 const loggerConfig = defineConfig({
   default: 'app',
 
-  /**
-   * The loggers object can be used to define multiple loggers.
-   * By default, we configure only one logger (named "app").
-   */
+  // define múltiplos loggers (padrão: só o "app")
   loggers: {
     app: {
       enabled: true,
@@ -26,10 +23,7 @@ const loggerConfig = defineConfig({
 
 export default loggerConfig
 
-/**
- * Inferring types for the list of loggers you have configured
- * in your application.
- */
+// tipos dos loggers configurados
 declare module '@adonisjs/core/types' {
   export interface LoggersList extends InferLoggers<typeof loggerConfig> {}
 }

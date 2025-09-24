@@ -1,24 +1,16 @@
 import { defineConfig } from '@adonisjs/core/bodyparser'
 
 const bodyParserConfig = defineConfig({
-  /**
-   * The bodyparser middleware will parse the request body
-   * for the following HTTP methods.
-   */
+  // métodos HTTP que terão o body parseado
   allowedMethods: ['POST', 'PUT', 'PATCH', 'DELETE'],
 
-  /**
-   * Config for the "application/x-www-form-urlencoded"
-   * content-type parser
-   */
+  // config pra form-urlencoded
   form: {
     convertEmptyStringsToNull: true,
     types: ['application/x-www-form-urlencoded'],
   },
 
-  /**
-   * Config for the JSON parser
-   */
+  // config pra JSON
   json: {
     convertEmptyStringsToNull: true,
     types: [
@@ -29,24 +21,14 @@ const bodyParserConfig = defineConfig({
     ],
   },
 
-  /**
-   * Config for the "multipart/form-data" content-type parser.
-   * File uploads are handled by the multipart parser.
-   */
+  // config pra multipart (upload de arquivos)
   multipart: {
-    /**
-     * Enabling auto process allows bodyparser middleware to
-     * move all uploaded files inside the tmp folder of your
-     * operating system
-     */
+    // move arquivos pra pasta tmp automaticamente
     autoProcess: true,
     convertEmptyStringsToNull: true,
     processManually: [],
 
-    /**
-     * Maximum limit of data to parse including all files
-     * and fields
-     */
+    // limite máximo de dados (arquivos + campos)
     limit: '20mb',
     types: ['multipart/form-data'],
   },

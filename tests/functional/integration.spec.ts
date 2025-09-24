@@ -118,7 +118,10 @@ test.group('Integração - Fluxos Completos', (group) => {
     assert.exists(parentComment)
     assert.isArray(parentComment.replies)
     assert.lengthOf(parentComment.replies, 1)
-    assert.equal(parentComment.replies[0].text, 'Esqueci de mencionar que gostei muito das dicas apresentadas!')
+    assert.equal(
+      parentComment.replies[0].text,
+      'Esqueci de mencionar que gostei muito das dicas apresentadas!'
+    )
   })
 
   test('fluxo de moderação: comentário ofensivo é rejeitado e deletado', async ({
@@ -187,9 +190,7 @@ test.group('Integração - Fluxos Completos', (group) => {
     assert.equal(comment!.deleted, true)
   })
 
-  test('fluxo de edição: comentarista edita comentário antes da aprovação', async ({
-    client,
-  }) => {
+  test('fluxo de edição: comentarista edita comentário antes da aprovação', async ({ client }) => {
     // preparação
     const author = await User.create({
       name: 'Autor',
@@ -240,7 +241,9 @@ test.group('Integração - Fluxos Completos', (group) => {
       .header('authorization', `Bearer ${authorToken}`)
     pendingResponse.assertStatus(200)
     pendingResponse.assertBodyContains([
-      { text: 'Muito bom o post! Só acho que poderia ter mais detalhes sobre o tema Y e suas implicações práticas.' },
+      {
+        text: 'Muito bom o post! Só acho que poderia ter mais detalhes sobre o tema Y e suas implicações práticas.',
+      },
     ])
 
     // 4. Autor aprova comentário editado
@@ -254,13 +257,13 @@ test.group('Integração - Fluxos Completos', (group) => {
     const publicResponse = await client.get(`/api/v1/posts/${post.id}/comments`)
     publicResponse.assertStatus(200)
     publicResponse.assertBodyContains([
-      { text: 'Muito bom o post! Só acho que poderia ter mais detalhes sobre o tema Y e suas implicações práticas.' },
+      {
+        text: 'Muito bom o post! Só acho que poderia ter mais detalhes sobre o tema Y e suas implicações práticas.',
+      },
     ])
   })
 
-  test('fluxo de permissões: diferentes usuários têm diferentes acessos', async ({
-    client,
-  }) => {
+  test('fluxo de permissões: diferentes usuários têm diferentes acessos', async ({ client }) => {
     // preparação: 3 usuários com papéis diferentes
     const author = await User.create({
       name: 'Autor Original',

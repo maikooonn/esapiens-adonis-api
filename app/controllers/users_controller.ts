@@ -82,11 +82,18 @@ export default class UsersController {
     }
   }
 
-  async update({ params, request, response }: HttpContext) {
+  async update({ params, request, response, auth }: HttpContext) {
     try {
+      const authenticatedUser = await auth.authenticate()
       const userId = Number.parseInt(params.id)
+
       if (Number.isNaN(userId)) {
         return response.badRequest({ error: 'Invalid user ID' })
+      }
+
+      // usuário só pode editar próprio perfil
+      if (authenticatedUser.id !== userId) {
+        return response.forbidden({ error: 'You can only edit your own profile' })
       }
 
       const user = await User.find(userId)
@@ -118,11 +125,18 @@ export default class UsersController {
     }
   }
 
-  async destroy({ params, response }: HttpContext) {
+  async destroy({ params, response, auth }: HttpContext) {
     try {
+      const authenticatedUser = await auth.authenticate()
       const userId = Number.parseInt(params.id)
+
       if (Number.isNaN(userId)) {
         return response.badRequest({ error: 'Invalid user ID' })
+      }
+
+      // usuário só pode deletar próprio perfil
+      if (authenticatedUser.id !== userId) {
+        return response.forbidden({ error: 'You can only delete your own profile' })
       }
 
       const user = await User.find(userId)

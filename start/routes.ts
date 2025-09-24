@@ -38,10 +38,10 @@ router
     router
       .group(() => {
         router.get('/', [UsersController, 'index'])
-        router.post('/', [UsersController, 'store'])
+        router.post('/', [UsersController, 'store']) // criação não precisa de auth
         router.get('/:id', [UsersController, 'show'])
-        router.put('/:id', [UsersController, 'update'])
-        router.delete('/:id', [UsersController, 'destroy'])
+        router.put('/:id', [UsersController, 'update']).use(middleware.auth())
+        router.delete('/:id', [UsersController, 'destroy']).use(middleware.auth())
       })
       .prefix('/users')
 

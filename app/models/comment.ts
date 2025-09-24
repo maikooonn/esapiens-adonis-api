@@ -35,22 +35,22 @@ export default class Comment extends BaseModel {
   declare updatedAt: DateTime
 
   @belongsTo(() => User, {
-    foreignKey: 'authorId'
+    foreignKey: 'authorId',
   })
   declare author: BelongsTo<typeof User>
 
   @belongsTo(() => Post, {
-    foreignKey: 'postId'
+    foreignKey: 'postId',
   })
   declare post: BelongsTo<typeof Post>
 
   @belongsTo(() => Comment, {
-    foreignKey: 'parentId'
+    foreignKey: 'parentId',
   })
   declare parent: BelongsTo<typeof Comment>
 
   @hasMany(() => Comment, {
-    foreignKey: 'parentId'
+    foreignKey: 'parentId',
   })
   declare replies: HasMany<typeof Comment>
 }

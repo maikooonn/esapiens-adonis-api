@@ -26,12 +26,12 @@ export default class Post extends BaseModel {
   declare updatedAt: DateTime
 
   @belongsTo(() => User, {
-    foreignKey: 'authorId'
+    foreignKey: 'authorId',
   })
   declare author: BelongsTo<typeof User>
 
   @hasMany(() => Comment, {
-    foreignKey: 'postId'
+    foreignKey: 'postId',
   })
   declare comments: HasMany<typeof Comment>
 }

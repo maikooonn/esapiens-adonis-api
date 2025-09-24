@@ -5,7 +5,7 @@ import vine from '@vinejs/vine'
 const loginValidator = vine.compile(
   vine.object({
     email: vine.string().email(),
-    password: vine.string().minLength(6)
+    password: vine.string().minLength(6),
   })
 )
 
@@ -17,7 +17,7 @@ export default class AuthController {
       const user = await User.verifyCredentials(email, password)
 
       const token = await User.accessTokens.create(user, ['*'], {
-        expiresIn: '3h'
+        expiresIn: '3h',
       })
 
       return response.ok({
@@ -26,8 +26,8 @@ export default class AuthController {
         user: {
           id: user.id,
           name: user.name,
-          email: user.email
-        }
+          email: user.email,
+        },
       })
     } catch (error) {
       return response.unauthorized({ error: 'Credenciais inválidas' })
@@ -56,8 +56,8 @@ export default class AuthController {
         updatedAt: userData.updatedAt,
         _count: {
           posts: userData.posts.length,
-          comments: userData.comments.length
-        }
+          comments: userData.comments.length,
+        },
       })
     } catch (error) {
       return response.internalServerError({ error: 'Erro interno do servidor' })

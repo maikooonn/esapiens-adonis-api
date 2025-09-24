@@ -4,13 +4,13 @@ import vine from '@vinejs/vine'
 
 const updateCommentValidator = vine.compile(
   vine.object({
-    text: vine.string().minLength(3).maxLength(1024)
+    text: vine.string().minLength(3).maxLength(1024),
   })
 )
 
 const approvalValidator = vine.compile(
   vine.object({
-    status: vine.enum(['approved', 'rejected'])
+    status: vine.enum(['approved', 'rejected']),
   })
 )
 
@@ -18,9 +18,9 @@ export default class CommentsController {
   async update({ params, request, response, auth }: HttpContext) {
     try {
       const user = await auth.authenticate()
-      const commentId = parseInt(params.commentId)
+      const commentId = Number.parseInt(params.commentId)
 
-      if (isNaN(commentId)) {
+      if (Number.isNaN(commentId)) {
         return response.badRequest({ error: 'Invalid comment ID' })
       }
 
@@ -31,13 +31,13 @@ export default class CommentsController {
 
       if (comment.authorId !== user.id) {
         return response.forbidden({
-          error: 'Only the comment author can edit this comment'
+          error: 'Only the comment author can edit this comment',
         })
       }
 
       if (comment.status === 'approved') {
         return response.badRequest({
-          error: 'Cannot edit approved comments'
+          error: 'Cannot edit approved comments',
         })
       }
 
@@ -53,7 +53,7 @@ export default class CommentsController {
 
       return response.ok({
         ...comment.serialize(),
-        message: 'Comment updated and re-submitted for approval'
+        message: 'Comment updated and re-submitted for approval',
       })
     } catch (error) {
       return response.internalServerError({ error: 'Internal server error' })
@@ -63,9 +63,9 @@ export default class CommentsController {
   async destroy({ params, response, auth }: HttpContext) {
     try {
       const user = await auth.authenticate()
-      const commentId = parseInt(params.commentId)
+      const commentId = Number.parseInt(params.commentId)
 
-      if (isNaN(commentId)) {
+      if (Number.isNaN(commentId)) {
         return response.badRequest({ error: 'Invalid comment ID' })
       }
 
@@ -84,7 +84,7 @@ export default class CommentsController {
 
       if (!isCommentAuthor && !isPostOwner) {
         return response.forbidden({
-          error: 'Only the comment author or post owner can delete this comment'
+          error: 'Only the comment author or post owner can delete this comment',
         })
       }
 
@@ -100,9 +100,9 @@ export default class CommentsController {
   async updateApproval({ params, request, response, auth }: HttpContext) {
     try {
       const user = await auth.authenticate()
-      const commentId = parseInt(params.commentId)
+      const commentId = Number.parseInt(params.commentId)
 
-      if (isNaN(commentId)) {
+      if (Number.isNaN(commentId)) {
         return response.badRequest({ error: 'Invalid comment ID' })
       }
 
@@ -118,7 +118,7 @@ export default class CommentsController {
 
       if (comment.post.authorId !== user.id) {
         return response.forbidden({
-          error: 'Only the post author can approve or reject comments'
+          error: 'Only the post author can approve or reject comments',
         })
       }
 

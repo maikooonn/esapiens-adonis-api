@@ -7,22 +7,21 @@ const createUserValidator = vine.compile(
   vine.object({
     name: vine.string().minLength(2).maxLength(100),
     email: vine.string().email(),
-    password: vine.string().minLength(6)
+    password: vine.string().minLength(6),
   })
 )
 
 const updateUserValidator = vine.compile(
   vine.object({
     name: vine.string().minLength(2).maxLength(100).optional(),
-    email: vine.string().email().optional()
+    email: vine.string().email().optional(),
   })
 )
 
 export default class UsersController {
   async index({ response }: HttpContext) {
     try {
-      const users = await User.query()
-        .select(['id', 'name', 'email', 'created_at', 'updated_at'])
+      const users = await User.query().select(['id', 'name', 'email', 'created_at', 'updated_at'])
 
       return response.ok(users)
     } catch (error) {
@@ -32,8 +31,8 @@ export default class UsersController {
 
   async show({ params, response }: HttpContext) {
     try {
-      const userId = parseInt(params.id)
-      if (isNaN(userId)) {
+      const userId = Number.parseInt(params.id)
+      if (Number.isNaN(userId)) {
         return response.badRequest({ error: 'Invalid user ID' })
       }
 
@@ -66,7 +65,7 @@ export default class UsersController {
       const user = await User.create({
         name,
         email,
-        password: hashedPassword
+        password: hashedPassword,
       })
 
       return response.created({
@@ -75,8 +74,8 @@ export default class UsersController {
           id: user.id,
           name: user.name,
           email: user.email,
-          createdAt: user.createdAt
-        }
+          createdAt: user.createdAt,
+        },
       })
     } catch (error) {
       return response.internalServerError({ error: 'Internal server error' })
@@ -85,8 +84,8 @@ export default class UsersController {
 
   async update({ params, request, response }: HttpContext) {
     try {
-      const userId = parseInt(params.id)
-      if (isNaN(userId)) {
+      const userId = Number.parseInt(params.id)
+      if (Number.isNaN(userId)) {
         return response.badRequest({ error: 'Invalid user ID' })
       }
 
@@ -112,7 +111,7 @@ export default class UsersController {
         name: user.name,
         email: user.email,
         createdAt: user.createdAt,
-        updatedAt: user.updatedAt
+        updatedAt: user.updatedAt,
       })
     } catch (error) {
       return response.internalServerError({ error: 'Internal server error' })
@@ -121,8 +120,8 @@ export default class UsersController {
 
   async destroy({ params, response }: HttpContext) {
     try {
-      const userId = parseInt(params.id)
-      if (isNaN(userId)) {
+      const userId = Number.parseInt(params.id)
+      if (Number.isNaN(userId)) {
         return response.badRequest({ error: 'Invalid user ID' })
       }
 

@@ -18,22 +18,26 @@ API desenvolvida em AdonisJS com TypeScript para o sistema ESapiens.
 ## 🔧 Instalação
 
 1. Clone o repositório:
+
 ```bash
 git clone <url-do-repositorio>
 cd esapiens-adonis
 ```
 
 2. Instale as dependências:
+
 ```bash
 npm install
 ```
 
 3. Configure as variáveis de ambiente:
+
 ```bash
 cp .env.example .env
 ```
 
 4. Edite o arquivo `.env` com suas configurações:
+
 ```env
 NODE_ENV=development
 PORT=3333
@@ -49,6 +53,7 @@ DB_DATABASE=esapiens-api
 ```
 
 5. Execute as migrações do banco de dados:
+
 ```bash
 node ace migration:run
 ```
@@ -56,12 +61,15 @@ node ace migration:run
 ## 🚀 Executando a aplicação
 
 ### Desenvolvimento
+
 ```bash
 npm run dev
 ```
+
 Inicia o servidor em modo de desenvolvimento com hot reload na porta 3333.
 
 ### Produção
+
 ```bash
 # Build da aplicação
 npm run build
@@ -114,19 +122,23 @@ DELETE /api/users/:id    # Remove usuário
 ## 📝 Desenvolvimento
 
 ### Adicionando novas rotas
+
 As rotas são definidas em `start/routes.ts`.
 
 ### Criando controllers
+
 ```bash
 node ace make:controller User
 ```
 
 ### Criando models
+
 ```bash
 node ace make:model User
 ```
 
 ### Criando migrações
+
 ```bash
 node ace make:migration create_users_table
 ```
@@ -134,6 +146,7 @@ node ace make:migration create_users_table
 ## 🧪 Testes
 
 Execute os testes com:
+
 ```bash
 npm test
 ```

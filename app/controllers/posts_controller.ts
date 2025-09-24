@@ -6,21 +6,21 @@ import vine from '@vinejs/vine'
 const createPostValidator = vine.compile(
   vine.object({
     title: vine.string().minLength(3).maxLength(255),
-    content: vine.string().minLength(10)
+    content: vine.string().minLength(10),
   })
 )
 
 const updatePostValidator = vine.compile(
   vine.object({
     title: vine.string().minLength(3).maxLength(255).optional(),
-    content: vine.string().minLength(10).optional()
+    content: vine.string().minLength(10).optional(),
   })
 )
 
 const createCommentValidator = vine.compile(
   vine.object({
     text: vine.string().minLength(3).maxLength(1024),
-    parentId: vine.number().optional()
+    parentId: vine.number().optional(),
   })
 )
 
@@ -41,8 +41,8 @@ export default class PostsController {
 
   async show({ params, response }: HttpContext) {
     try {
-      const postId = parseInt(params.id)
-      if (isNaN(postId)) {
+      const postId = Number.parseInt(params.id)
+      if (Number.isNaN(postId)) {
         return response.badRequest({ error: 'Invalid post ID' })
       }
 
@@ -71,7 +71,7 @@ export default class PostsController {
       const post = await Post.create({
         title,
         content,
-        authorId: user.id
+        authorId: user.id,
       })
 
       await post.load('author', (query) => {
@@ -87,9 +87,9 @@ export default class PostsController {
   async update({ params, request, response, auth }: HttpContext) {
     try {
       const user = await auth.authenticate()
-      const postId = parseInt(params.id)
+      const postId = Number.parseInt(params.id)
 
-      if (isNaN(postId)) {
+      if (Number.isNaN(postId)) {
         return response.badRequest({ error: 'Invalid post ID' })
       }
 
@@ -100,7 +100,7 @@ export default class PostsController {
 
       if (post.authorId !== user.id) {
         return response.forbidden({
-          error: 'Only the post author can edit this post'
+          error: 'Only the post author can edit this post',
         })
       }
 
@@ -121,9 +121,9 @@ export default class PostsController {
   async destroy({ params, response, auth }: HttpContext) {
     try {
       const user = await auth.authenticate()
-      const postId = parseInt(params.id)
+      const postId = Number.parseInt(params.id)
 
-      if (isNaN(postId)) {
+      if (Number.isNaN(postId)) {
         return response.badRequest({ error: 'Invalid post ID' })
       }
 
@@ -134,7 +134,7 @@ export default class PostsController {
 
       if (post.authorId !== user.id) {
         return response.forbidden({
-          error: 'Only the post author can delete this post'
+          error: 'Only the post author can delete this post',
         })
       }
 
@@ -147,8 +147,8 @@ export default class PostsController {
 
   async comments({ params, response }: HttpContext) {
     try {
-      const postId = parseInt(params.postId)
-      if (isNaN(postId)) {
+      const postId = Number.parseInt(params.postId)
+      if (Number.isNaN(postId)) {
         return response.badRequest({ error: 'Invalid post ID' })
       }
 
@@ -179,9 +179,9 @@ export default class PostsController {
   async pendingComments({ params, response, auth }: HttpContext) {
     try {
       const user = await auth.authenticate()
-      const postId = parseInt(params.postId)
+      const postId = Number.parseInt(params.postId)
 
-      if (isNaN(postId)) {
+      if (Number.isNaN(postId)) {
         return response.badRequest({ error: 'Invalid post ID' })
       }
 
@@ -192,7 +192,7 @@ export default class PostsController {
 
       if (post.authorId !== user.id) {
         return response.forbidden({
-          error: 'Only the post author can view pending comments'
+          error: 'Only the post author can view pending comments',
         })
       }
 
@@ -214,9 +214,9 @@ export default class PostsController {
   async createComment({ params, request, response, auth }: HttpContext) {
     try {
       const user = await auth.authenticate()
-      const postId = parseInt(params.postId)
+      const postId = Number.parseInt(params.postId)
 
-      if (isNaN(postId)) {
+      if (Number.isNaN(postId)) {
         return response.badRequest({ error: 'Invalid post ID' })
       }
 
@@ -239,7 +239,7 @@ export default class PostsController {
         authorId: user.id,
         text,
         parentId: parentId || null,
-        status: 'pending'
+        status: 'pending',
       })
 
       await comment.load('author', (query) => {

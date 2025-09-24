@@ -1,9 +1,9 @@
 /*
 |--------------------------------------------------------------------------
-| Routes file
+| Arquivo de rotas
 |--------------------------------------------------------------------------
 |
-| The routes file is used for defining the HTTP routes.
+| Aqui ficam todas as rotas HTTP da aplicação
 |
 */
 
@@ -15,18 +15,18 @@ const UsersController = () => import('#controllers/users_controller')
 const PostsController = () => import('#controllers/posts_controller')
 const CommentsController = () => import('#controllers/comments_controller')
 
-// Health check
+// checagem básica da API
 router.get('/', async () => {
   return {
-    message: 'Comments API - AdonisJS',
+    message: 'API de Comentários - AdonisJS',
     version: '1.0.0',
   }
 })
 
-// API v1 routes
+// rotas da API v1
 router
   .group(() => {
-    // Authentication routes
+    // rotas de autenticação
     router
       .group(() => {
         router.post('/login', [AuthController, 'login'])
@@ -34,7 +34,7 @@ router
       })
       .prefix('/auth')
 
-    // User routes
+    // rotas de usuários
     router
       .group(() => {
         router.get('/', [UsersController, 'index'])
@@ -45,7 +45,7 @@ router
       })
       .prefix('/users')
 
-    // Post routes
+    // rotas de posts
     router
       .group(() => {
         router.get('/', [PostsController, 'index'])
@@ -54,7 +54,7 @@ router
         router.put('/:id', [PostsController, 'update']).use(middleware.auth())
         router.delete('/:id', [PostsController, 'destroy']).use(middleware.auth())
 
-        // Comment routes nested under posts
+        // rotas de comentários dentro de posts
         router.get('/:postId/comments', [PostsController, 'comments'])
         router.post('/:postId/comments', [PostsController, 'createComment']).use(middleware.auth())
         router
@@ -63,7 +63,7 @@ router
       })
       .prefix('/posts')
 
-    // Comment routes (for update, delete and approval)
+    // rotas de comentários (editar, deletar e aprovar)
     router
       .group(() => {
         router.put('/:commentId', [CommentsController, 'update']).use(middleware.auth())
